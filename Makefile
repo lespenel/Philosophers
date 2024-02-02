@@ -11,6 +11,7 @@ BUILD_DIR = .build
 SRC_FILES = main.c \
 			ft_atoi.c \
 			parsing.c \
+			get_time.c \
 
 INCLUDES = includes
 
