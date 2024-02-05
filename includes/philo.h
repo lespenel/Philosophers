@@ -6,7 +6,7 @@
 /*   By: lespenel <lespenel@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 01:04:37 by lespenel          #+#    #+#             */
-/*   Updated: 2024/02/04 07:10:24 by lespenel         ###   ########.fr       */
+/*   Updated: 2024/02/05 05:37:59 by lespenel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,10 +37,14 @@ typedef struct s_philo
 	int				*id;
 	int				*living;
 	int				start_time;
-	pthread_mutex_t	*mutex_print;
+	int				last_meal;
+	int				meal_number;
+	int				enaught_meal;
 	pthread_mutex_t	*left_fork;
 	pthread_mutex_t *right_fork;
+	pthread_mutex_t	*mutex_print;
 	pthread_mutex_t	*dead_mutex;
+	pthread_mutex_t	*exec_mutex;
 	t_time			*clock;
 	t_params		*params;
 }	t_philo;
@@ -50,10 +54,12 @@ typedef struct s_thread
 	int					*philo_ids;
 	pthread_mutex_t		*forks;
 	pthread_t			*threads;
+	pthread_t			monitoring;
 	t_philo				*philos;
 	int					living;
-	pthread_mutex_t		mutex;
+	pthread_mutex_t		mutex_print;
 	pthread_mutex_t		dead_mutex;
+	pthread_mutex_t		exec_mutex;
 }	t_thread;
 
 typedef struct s_master
@@ -63,22 +69,24 @@ typedef struct s_master
 	t_thread	threads;
 }	t_master;
 
+int	eating_routine(t_philo *philo);
+int	sleeping_routine(t_philo *philo);
+int	thinking_routine(t_philo *philo);
+
+int	get_living_status(t_philo *philo);
+
+int	start_philos(t_master *data);
+int	start_monitoring(t_master *data);
+
 int	print_error(char *str);
 int	ft_atoi(char *nptr);
 int	get_params(int argc, char **argv, t_params *param);
 int	init_philo(t_params *params, t_philo *table);
 int	init_threads(t_master *data, t_thread *threads);
 
-int	taking_fork(t_philo *philo);
-int	thinking_state(t_philo *philo);
-int	eat_state(t_philo *philo);
-int	sleep_state(t_philo *philo);
-int	dead_state(t_philo *philo);
-int	print_state(t_time *clock, int id, char *str);
-
+int	print_state(t_philo *philo, int id, char *str);
 int	get_begin_time(t_time *time);
 int	get_actual_time(t_time *time);
 int	ft_usleep(t_time *clock, int timer);
-int	get_time(void);
 
 #endif

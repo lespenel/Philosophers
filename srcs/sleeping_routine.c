@@ -1,28 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   sleeping_routine.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lespenel <lespenel@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: lespenel </var/spool/mail/lespenel>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/01 01:02:35 by lespenel          #+#    #+#             */
-/*   Updated: 2024/02/05 05:39:26 by lespenel         ###   ########.fr       */
+/*   Created: 2024/02/04 19:43:32 by lespenel          #+#    #+#             */
+/*   Updated: 2024/02/04 19:45:30 by lespenel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-int	main(int argc, char **argv)
-{
-	t_master	data;
 
-	if (get_params(argc, argv, &data.param) == -1)
+int	sleeping_routine(t_philo *philo)
+{
+	if (print_state(philo, *philo->id, "is sleeping") == -1)
 		return (-1);
-	if (init_threads(&data, &data.threads) == -1)
-		return (-1);
-	if (get_begin_time(&data.clock) == -1)
-		return (-1);
-	if (start_philos(&data) == -1)
+	if (ft_usleep(philo->clock, philo->params->time_to_sleep) == -1)
 		return (-1);
 	return (0);
 }

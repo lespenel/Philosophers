@@ -6,7 +6,7 @@
 /*   By: lespenel <lespenel@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/03 01:51:27 by lespenel          #+#    #+#             */
-/*   Updated: 2024/02/04 06:46:29 by lespenel         ###   ########.fr       */
+/*   Updated: 2024/02/05 06:08:49 by lespenel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,10 +70,14 @@ int	init_philos(t_thread *threads, t_master *data)
 		threads->philos[i].id = threads->philo_ids + i;
 		threads->philos[i].clock = &data->clock;
 		threads->philos[i].dead_mutex = &threads->dead_mutex;
-		threads->philos[i].mutex_print = &threads->mutex;
+		threads->philos[i].mutex_print = &threads->mutex_print;
+		threads->philos[i].exec_mutex = &threads->exec_mutex;
 		threads->philos[i].left_fork = threads->forks + i;
 		threads->philos[i].right_fork = threads->forks + ((i + 1) % data->param.number_of_philo);
 		threads->philos[i].params = &data->param;
+		threads->philos[i].meal_number = 0;
+		threads->philos[i].enaught_meal = 0;
+		threads->philos[i].last_meal = 0;
 		i++;
 	}
 	return (0);
@@ -87,9 +91,11 @@ int	init_threads(t_master *data, t_thread *threads)
 		return (-1);
 	if (init_threads_tab(threads, &data->param) == -1)
 		return (-1);
-	if (pthread_mutex_init(&threads->mutex, NULL) == -1)
+	if (pthread_mutex_init(&threads->mutex_print, NULL) == -1)
 		return (print_error("Mutex init failure\n"));
 	if (pthread_mutex_init(&threads->dead_mutex, NULL) == -1)
+		return (print_error("Mutex init failure\n"));
+	if (pthread_mutex_init(&threads->exec_mutex, NULL) == -1)
 		return (print_error("Mutex init failure\n"));
 	if (init_philos(threads, data) == -1)
 		return (-1);
