@@ -6,11 +6,12 @@
 /*   By: lespenel <lespenel@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 17:16:05 by lespenel          #+#    #+#             */
-/*   Updated: 2024/02/06 06:19:32 by lespenel         ###   ########.fr       */
+/*   Updated: 2024/02/07 00:32:04 by lespenel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <bits/types/struct_timeval.h>
+#include <pthread.h>
 #include <sys/time.h>
 #include <stdio.h>
 #include <unistd.h>
@@ -37,15 +38,15 @@ int	print_state(t_philo *philo, int id, char *str)
 		return (-1);
 	return (0);
 }
-
-int	get_actual_time(t_time *time)
+int	get_actual_time(t_time *lol)
 {
+	struct timeval time;
 	int	current_time;
 
-	if (gettimeofday(&time->actual, NULL) == -1)
+	if (gettimeofday(&time, NULL) == -1)
 		return (print_error("gettimeofday failed\n"));
-	current_time = (time->actual.tv_sec - time->begin.tv_sec) * 1000;
-	current_time += (time->actual.tv_usec - time->begin.tv_usec) / 1000;
+	current_time = (time.tv_sec - lol->begin.tv_sec) * 1000;
+	current_time += (time.tv_usec - lol->begin.tv_usec) / 1000;
 	return (current_time);
 }
 

@@ -6,7 +6,7 @@
 /*   By: lespenel </var/spool/mail/lespenel>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/04 19:24:06 by lespenel          #+#    #+#             */
-/*   Updated: 2024/02/06 07:05:25 by lespenel         ###   ########.fr       */
+/*   Updated: 2024/02/07 00:41:06 by lespenel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,8 @@ int	eating_routine(t_philo *philo)
 	if (pthread_mutex_unlock(philo->philo_mutex) == -1)
 		return (-1);
 	philo->meal_number += 1;
-	if (philo->params->number_of_time_each_philo_must_eat > 0 && 
-			philo->meal_number == philo->params->number_of_time_each_philo_must_eat)
+	if (philo->meal_number == get_int(philo->philo_mutex, 
+				&philo->params->number_of_time_each_philo_must_eat))
 	{
 		if (pthread_mutex_lock(philo->philo_mutex) == -1)
 			return (-1);
@@ -43,7 +43,7 @@ int	eating_routine(t_philo *philo)
 
 static int	odd_eating(t_philo *philo)
 {
-	if (get_int(philo->philo_mutex, philo->id) % 2 == 1)
+	if (get_int(philo->philo_mutex, philo->id) % 2 == 0)
 	{
 		if (print_state(philo, *philo->id, "has taken a fork") == -1)
 			return (-1);
@@ -65,7 +65,7 @@ static int	odd_eating(t_philo *philo)
 
 static int	even_eating(t_philo *philo)
 {
-	if (get_int(philo->philo_mutex, philo->id) % 2 == 0)
+	if (get_int(philo->philo_mutex, philo->id) % 2 == 1)
 	{
 		if (pthread_mutex_lock(philo->right_fork) == -1)
 			return (-1);

@@ -6,7 +6,7 @@
 /*   By: lespenel </var/spool/mail/lespenel>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/04 07:42:33 by lespenel          #+#    #+#             */
-/*   Updated: 2024/02/06 06:59:24 by lespenel         ###   ########.fr       */
+/*   Updated: 2024/02/07 00:33:41 by lespenel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,9 +32,9 @@ int	start_philos(t_master *data)
 	}
 	else if (create_threads_loop(data) == -1)
 		return (-1);
-	set_int(&data->threads.exec_mutex, &data->threads.thread_ready, 1);
 	if (start_monitoring(data) == -1)
 		return (-1);
+	set_int(&data->threads.exec_mutex, &data->threads.thread_ready, 1);
 	if (join_threads_loop(data) == -1)
 		return (-1);
 	if (free_data(&data->threads) == -1)
@@ -52,19 +52,17 @@ static int single_philo(t_philo *philo)
 static int	philo_routine(t_philo *philo)
 {
 	while (get_int(philo->exec_mutex , &philo->thread->thread_ready) == 0)
-		usleep(500);
-	philo->start_time = get_actual_time(philo->clock);
-	philo->last_meal = philo->start_time;
+		usleep(100);
+	pthread_mutex_lock(philo->philo_mutex);
+	philo->last_meal = get_actual_time(philo->clock);
+	pthread_mutex_unlock(philo->philo_mutex);
 	while (get_simulation_status2(philo) == 1)
 	{
-		if (philo->enaught_meal == 1)
+		if (get_int(philo->philo_mutex, &philo->enaught_meal) == 1)
 			break ;
-		if (get_simulation_status2(philo) == 1)
-			eating_routine(philo);
-		if (get_simulation_status2(philo) == 1)
-			sleeping_routine(philo);
-		if (get_simulation_status2(philo) == 1)
-			thinking_routine(philo);
+		eating_routine(philo);
+		sleeping_routine(philo);
+		thinking_routine(philo);
 	}
 	return (0);
 }
@@ -74,7 +72,7 @@ static int	create_threads_loop(t_master *data)
 	int i;
 
 	i = 0;
-	while (i < data->param.number_of_philo)
+	while (i < get_int(&data->threads.exec_mutex, &data->param.number_of_philo))
 	{
 		if (pthread_create(&data->threads.threads[i], NULL, 
 					(void *)philo_routine, &data->threads.philos[i]) == -1)
@@ -93,7 +91,7 @@ static int	join_threads_loop(t_master *data)
 	int i;
 
 	i = 0;
-	while (i < data->param.number_of_philo)
+	while (i < get_int(&data->threads.exec_mutex, &data->param.number_of_philo))
 	{
 		if (pthread_join(data->threads.threads[i], NULL) == -1)
 		{
@@ -103,7 +101,7 @@ static int	join_threads_loop(t_master *data)
 		}
 		i++;
 	}
-	data->threads.simulation_status = 0;
+	set_int(&data->threads.exec_mutex, &data->threads.simulation_status, 0);
 	if (pthread_join(data->threads.monitoring, NULL) == -1)
 		return (print_error("pthread_join failure\n"));
 	return (0);
