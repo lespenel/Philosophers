@@ -6,7 +6,7 @@
 /*   By: lespenel <lespenel@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 01:04:37 by lespenel          #+#    #+#             */
-/*   Updated: 2024/02/05 05:37:59 by lespenel         ###   ########.fr       */
+/*   Updated: 2024/02/06 05:14:01 by lespenel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@
 #include <stddef.h>
 #include <sys/time.h>
 #include <pthread.h>
+
+typedef struct s_thread t_thread;
 
 typedef struct s_params
 {
@@ -35,7 +37,7 @@ typedef struct s_time
 typedef struct s_philo
 {
 	int				*id;
-	int				*living;
+	int				*simulation_status;
 	int				start_time;
 	int				last_meal;
 	int				meal_number;
@@ -43,8 +45,9 @@ typedef struct s_philo
 	pthread_mutex_t	*left_fork;
 	pthread_mutex_t *right_fork;
 	pthread_mutex_t	*mutex_print;
-	pthread_mutex_t	*dead_mutex;
 	pthread_mutex_t	*exec_mutex;
+	pthread_mutex_t	*philo_mutex;
+	t_thread		*thread;
 	t_time			*clock;
 	t_params		*params;
 }	t_philo;
@@ -56,10 +59,11 @@ typedef struct s_thread
 	pthread_t			*threads;
 	pthread_t			monitoring;
 	t_philo				*philos;
-	int					living;
+	int					simulation_status;
 	pthread_mutex_t		mutex_print;
-	pthread_mutex_t		dead_mutex;
 	pthread_mutex_t		exec_mutex;
+	pthread_mutex_t		*philos_mutex;
+	int					thread_ready;
 }	t_thread;
 
 typedef struct s_master
@@ -69,14 +73,20 @@ typedef struct s_master
 	t_thread	threads;
 }	t_master;
 
+int	get_int(pthread_mutex_t *mutex, int *var);
+int	set_int(pthread_mutex_t *mutex, int *var, int to_put_in);
+int	get_simulation_status2(t_philo *philos);
+
 int	eating_routine(t_philo *philo);
 int	sleeping_routine(t_philo *philo);
 int	thinking_routine(t_philo *philo);
 
-int	get_living_status(t_philo *philo);
+int	get_simulation_status(t_philo *philo);
 
 int	start_philos(t_master *data);
 int	start_monitoring(t_master *data);
+
+int	free_data(t_thread *threads);
 
 int	print_error(char *str);
 int	ft_atoi(char *nptr);

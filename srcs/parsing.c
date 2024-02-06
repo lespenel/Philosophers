@@ -6,7 +6,7 @@
 /*   By: lespenel <lespenel@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 03:28:33 by lespenel          #+#    #+#             */
-/*   Updated: 2024/02/04 04:14:15 by lespenel         ###   ########.fr       */
+/*   Updated: 2024/02/06 04:14:42 by lespenel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ int	get_params(int argc, char **argv, t_params *param)
 	if (argc != 5 && argc != 6)
 		return (print_error("Invalid number of parameters\n"));
 	param->number_of_philo = ft_atoi(argv[1]);
-	if (param->number_of_philo == -1)
+	if (param->number_of_philo <= 0)
 		return (print_error("Invalid value: number_of_philo\n"));
 	param->time_to_die = ft_atoi(argv[2]);
 	if (param->time_to_die == -1)

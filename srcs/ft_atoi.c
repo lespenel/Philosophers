@@ -6,7 +6,7 @@
 /*   By: lespenel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/06 17:04:56 by lespenel          #+#    #+#             */
-/*   Updated: 2024/02/03 02:15:32 by lespenel         ###   ########.fr       */
+/*   Updated: 2024/02/06 04:24:29 by lespenel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,11 +18,15 @@
 int	ft_atoi(char *nptr)
 {
 	int			nb;
+	size_t		len;
 	size_t		index;
 
+	len = 0;
 	index = 0;
 	nb = 0;
-	if (nptr[index] == '-' || nptr[index] == '+')
+	while (nptr[len])
+		len++;
+	if (nptr[index] < '0' || nptr[index] > '9')
 		return (-1);
 	while (nptr[index] <= '9' && nptr[index] >= '0')
 	{
@@ -31,5 +35,7 @@ int	ft_atoi(char *nptr)
 		nb = nb * 10 + (nptr[index] - '0');
 		index += 1;
 	}
+	if (len != index)
+		return (-1);
 	return (nb);
 }

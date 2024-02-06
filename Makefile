@@ -1,6 +1,6 @@
 NAME = 	philo
 
-CFLAGS = -Wall -Wextra -Werror -I$(INCLUDES)
+CFLAGS = -Wall -Wextra -Werror -g3 -O3 -I$(INCLUDES)
 
 DFLAGS = -MMD -MP
 
@@ -12,6 +12,14 @@ SRC_FILES = main.c \
 			ft_atoi.c \
 			parsing.c \
 			get_time.c \
+			get_set.c \
+			init_threads.c \
+			free_data.c \
+			eating_routine.c \
+			sleeping_routine.c \
+			thinking_routine.c \
+			monitoring_thread.c \
+			philo.c \
 
 INCLUDES = includes
 

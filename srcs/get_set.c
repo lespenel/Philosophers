@@ -1,23 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   sleeping_routine.c                                 :+:      :+:    :+:   */
+/*   get_set.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lespenel </var/spool/mail/lespenel>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/04 19:43:32 by lespenel          #+#    #+#             */
-/*   Updated: 2024/02/06 03:53:31 by lespenel         ###   ########.fr       */
+/*   Created: 2024/02/06 02:12:17 by lespenel          #+#    #+#             */
+/*   Updated: 2024/02/06 02:16:18 by lespenel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
+#include <pthread.h>
 
-
-int	sleeping_routine(t_philo *philo)
+int	get_int(pthread_mutex_t *mutex, int *var)
 {
-	if (print_state(philo, *philo->id, "is sleeping") == -1)
-		return (-1);
-	if (ft_usleep(philo->clock, philo->params->time_to_sleep) == -1)
-		return (-1);
+	int	ret;
+
+	pthread_mutex_lock(mutex);
+	ret = *var;
+	pthread_mutex_unlock(mutex);
+	return (ret);
+}
+
+int	set_int(pthread_mutex_t *mutex, int *var, int to_put_in)
+{
+	pthread_mutex_lock(mutex);
+	*var = to_put_in;
+	pthread_mutex_unlock(mutex);
 	return (0);
 }

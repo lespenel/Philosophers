@@ -1,23 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   sleeping_routine.c                                 :+:      :+:    :+:   */
+/*   free_data.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lespenel </var/spool/mail/lespenel>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/04 19:43:32 by lespenel          #+#    #+#             */
-/*   Updated: 2024/02/06 03:53:31 by lespenel         ###   ########.fr       */
+/*   Created: 2024/02/06 04:01:45 by lespenel          #+#    #+#             */
+/*   Updated: 2024/02/06 04:10:23 by lespenel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
+#include <stdlib.h>
 
-
-int	sleeping_routine(t_philo *philo)
+int	free_data(t_thread *threads)
 {
-	if (print_state(philo, *philo->id, "is sleeping") == -1)
-		return (-1);
-	if (ft_usleep(philo->clock, philo->params->time_to_sleep) == -1)
-		return (-1);
+	if (threads->philos)
+		free(threads->philos);
+	if (threads->threads)
+		free(threads->threads);
+	if (threads->philo_ids)
+		free(threads->philo_ids);
+	if (threads->forks)
+		free(threads->forks);
+	if (threads->philos_mutex)
+		free(threads->philos_mutex);
+	pthread_mutex_destroy(&threads->mutex_print);
+	pthread_mutex_destroy(&threads->exec_mutex);
 	return (0);
 }
