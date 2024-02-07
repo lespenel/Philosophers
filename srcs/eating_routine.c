@@ -6,7 +6,7 @@
 /*   By: lespenel </var/spool/mail/lespenel>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/04 19:24:06 by lespenel          #+#    #+#             */
-/*   Updated: 2024/02/07 00:41:06 by lespenel         ###   ########.fr       */
+/*   Updated: 2024/02/07 01:18:21 by lespenel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,8 @@ int	eating_routine(t_philo *philo)
 	if (pthread_mutex_unlock(philo->philo_mutex) == -1)
 		return (-1);
 	philo->meal_number += 1;
-	if (philo->meal_number == get_int(philo->philo_mutex, 
-				&philo->params->number_of_time_each_philo_must_eat))
+	if (philo->meal_number == get_int(philo->philo_mutex,
+			&philo->params->number_of_time_each_philo_must_eat))
 	{
 		if (pthread_mutex_lock(philo->philo_mutex) == -1)
 			return (-1);
@@ -93,4 +93,3 @@ static int	eating_state(t_philo *philo)
 		return (-1);
 	return (0);
 }
-

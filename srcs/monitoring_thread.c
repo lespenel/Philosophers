@@ -6,7 +6,7 @@
 /*   By: lespenel </var/spool/mail/lespenel>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/04 20:40:59 by lespenel          #+#    #+#             */
-/*   Updated: 2024/02/07 00:36:32 by lespenel         ###   ########.fr       */
+/*   Updated: 2024/02/07 01:16:24 by lespenel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,20 +57,22 @@ int	is_philo_dead(t_philo *philo)
 
 int	monitoring_thread(t_master *data)
 {
-	int i;
+	int	i;
 
-	while (get_int(&data->threads.exec_mutex, &data->threads.simulation_status) == 0)
+	while (get_int(&data->threads.exec_mutex,
+			&data->threads.simulation_status) == 0)
 		usleep(100);
-	while(get_simulation_status(data->threads.philos) == 1)
+	while (get_simulation_status(data->threads.philos) == 1)
 	{
 		i = 0;
-		while (i < get_int(&data->threads.exec_mutex ,&data->param.number_of_philo))
+		while (i < get_int(&data->threads.exec_mutex,
+				&data->param.number_of_philo))
 		{
-			if (is_philo_dead(&data->threads.philos[i]) && 
-					get_simulation_status(data->threads.philos))
+			if (is_philo_dead(&data->threads.philos[i])
+				&& get_simulation_status(data->threads.philos))
 			{
-				print_state(&data->threads.philos[i], 
-						*data->threads.philos[i].id, "died");
+				print_state(&data->threads.philos[i],
+					*data->threads.philos[i].id, "died");
 				pthread_mutex_lock(&data->threads.exec_mutex);
 				data->threads.simulation_status = 0;
 				pthread_mutex_unlock(&data->threads.exec_mutex);
@@ -78,15 +80,14 @@ int	monitoring_thread(t_master *data)
 			usleep(500);
 			i++;
 		}
-
 	}
 	return (0);
 }
 
 int	start_monitoring(t_master *data)
-{			
-	if (pthread_create(&data->threads.monitoring, NULL, 
-				(void *)monitoring_thread, data) == -1)
+{
+	if (pthread_create(&data->threads.monitoring, NULL,
+			(void *)monitoring_thread, data) == -1)
 		return (-1);
 	return (0);
 }

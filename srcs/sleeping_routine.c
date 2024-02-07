@@ -6,12 +6,11 @@
 /*   By: lespenel </var/spool/mail/lespenel>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/04 19:43:32 by lespenel          #+#    #+#             */
-/*   Updated: 2024/02/07 00:25:12 by lespenel         ###   ########.fr       */
+/*   Updated: 2024/02/07 01:16:33 by lespenel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
-
 
 int	sleeping_routine(t_philo *philo)
 {

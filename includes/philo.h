@@ -6,18 +6,18 @@
 /*   By: lespenel <lespenel@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 01:04:37 by lespenel          #+#    #+#             */
-/*   Updated: 2024/02/07 00:24:51 by lespenel         ###   ########.fr       */
+/*   Updated: 2024/02/07 01:21:26 by lespenel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PHILO_H
 # define PHILO_H
 
-#include <stddef.h>
-#include <sys/time.h>
-#include <pthread.h>
+# include <stddef.h>
+# include <sys/time.h>
+# include <pthread.h>
 
-typedef struct s_thread t_thread;
+typedef struct s_thread	t_thread;
 
 typedef struct s_params
 {
@@ -32,18 +32,17 @@ typedef struct s_time
 {
 	struct timeval	begin;
 	struct timeval	actual;
-} t_time;
+}	t_time;
 
 typedef struct s_philo
 {
 	int				*id;
 	int				*simulation_status;
-	int				start_time;
 	int				last_meal;
 	int				meal_number;
 	int				enaught_meal;
 	pthread_mutex_t	*left_fork;
-	pthread_mutex_t *right_fork;
+	pthread_mutex_t	*right_fork;
 	pthread_mutex_t	*mutex_print;
 	pthread_mutex_t	*exec_mutex;
 	pthread_mutex_t	*philo_mutex;

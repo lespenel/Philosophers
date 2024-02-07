@@ -6,11 +6,10 @@
 /*   By: lespenel <lespenel@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 17:16:05 by lespenel          #+#    #+#             */
-/*   Updated: 2024/02/07 00:32:04 by lespenel         ###   ########.fr       */
+/*   Updated: 2024/02/07 01:19:05 by lespenel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <bits/types/struct_timeval.h>
 #include <pthread.h>
 #include <sys/time.h>
 #include <stdio.h>
@@ -30,18 +29,19 @@ int	print_state(t_philo *philo, int id, char *str)
 		return (-1);
 	if (get_simulation_status(philo))
 	{
-		if (printf("%-6d %-3d %s\n", 
-					get_actual_time(philo->clock), id, str) == -1)
+		if (printf("%-6d %-3d %s\n",
+				get_actual_time(philo->clock), id, str) == -1)
 			return (print_error("printf error\n"));
 	}
 	if (pthread_mutex_unlock(philo->mutex_print) == -1)
 		return (-1);
 	return (0);
 }
+
 int	get_actual_time(t_time *lol)
 {
-	struct timeval time;
-	int	current_time;
+	struct timeval	time;
+	int				current_time;
 
 	if (gettimeofday(&time, NULL) == -1)
 		return (print_error("gettimeofday failed\n"));

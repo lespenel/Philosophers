@@ -6,7 +6,7 @@
 /*   By: lespenel <lespenel@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/03 01:51:27 by lespenel          #+#    #+#             */
-/*   Updated: 2024/02/06 05:33:43 by lespenel         ###   ########.fr       */
+/*   Updated: 2024/02/07 01:11:03 by lespenel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,8 @@ static int	init_philos(t_thread *threads, t_master *data)
 		threads->philos[i].exec_mutex = &threads->exec_mutex;
 		threads->philos[i].philo_mutex = threads->philos_mutex + i;
 		threads->philos[i].left_fork = threads->forks + i;
-		threads->philos[i].right_fork = threads->forks + ((i + 1) % data->param.number_of_philo);
+		threads->philos[i].right_fork = threads->forks + ((i + 1)
+				% data->param.number_of_philo);
 		threads->philos[i].params = &data->param;
 		threads->philos[i].meal_number = 0;
 		threads->philos[i].enaught_meal = 0;
@@ -89,7 +90,8 @@ static int	init_forks_and_mutex(t_thread *threads, t_params *params)
 	threads->forks = malloc(sizeof(pthread_mutex_t) * params->number_of_philo);
 	if (threads->forks == NULL)
 		return (print_error("Memory allocation failure (forks)\n"));
-	threads->philos_mutex = malloc(sizeof(pthread_mutex_t) * params->number_of_philo);
+	threads->philos_mutex = malloc(sizeof(pthread_mutex_t)
+			* params->number_of_philo);
 	if (threads->forks == NULL)
 	{
 		free(threads->forks);

@@ -6,7 +6,7 @@
 /*   By: lespenel </var/spool/mail/lespenel>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/04 07:42:33 by lespenel          #+#    #+#             */
-/*   Updated: 2024/02/07 00:33:41 by lespenel         ###   ########.fr       */
+/*   Updated: 2024/02/07 01:17:57 by lespenel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,8 @@ int	start_philos(t_master *data)
 		return (0);
 	if (data->param.number_of_philo == 1)
 	{
-		pthread_create(&data->threads.threads[0], NULL, 
-				(void *)single_philo, &data->threads.philos[0]);
+		pthread_create(&data->threads.threads[0], NULL,
+			(void *)single_philo, &data->threads.philos[0]);
 	}
 	else if (create_threads_loop(data) == -1)
 		return (-1);
@@ -42,7 +42,7 @@ int	start_philos(t_master *data)
 	return (0);
 }
 
-static int single_philo(t_philo *philo)
+static int	single_philo(t_philo *philo)
 {
 	print_state(philo, *philo->id, "has taken a fork");
 	ft_usleep(philo->clock, philo->params->time_to_die + 10);
@@ -51,7 +51,7 @@ static int single_philo(t_philo *philo)
 
 static int	philo_routine(t_philo *philo)
 {
-	while (get_int(philo->exec_mutex , &philo->thread->thread_ready) == 0)
+	while (get_int(philo->exec_mutex, &philo->thread->thread_ready) == 0)
 		usleep(100);
 	pthread_mutex_lock(philo->philo_mutex);
 	philo->last_meal = get_actual_time(philo->clock);
@@ -69,13 +69,13 @@ static int	philo_routine(t_philo *philo)
 
 static int	create_threads_loop(t_master *data)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (i < get_int(&data->threads.exec_mutex, &data->param.number_of_philo))
 	{
-		if (pthread_create(&data->threads.threads[i], NULL, 
-					(void *)philo_routine, &data->threads.philos[i]) == -1)
+		if (pthread_create(&data->threads.threads[i], NULL,
+				(void *)philo_routine, &data->threads.philos[i]) == -1)
 		{
 			free(data->threads.forks);
 			free(data->threads.philos);
@@ -88,7 +88,7 @@ static int	create_threads_loop(t_master *data)
 
 static int	join_threads_loop(t_master *data)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (i < get_int(&data->threads.exec_mutex, &data->param.number_of_philo))
