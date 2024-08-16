@@ -6,7 +6,7 @@
 /*   By: lespenel <lespenel@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 05:34:55 by lespenel          #+#    #+#             */
-/*   Updated: 2024/02/09 05:34:56 by lespenel         ###   ########.fr       */
+/*   Updated: 2024/02/09 06:28:53 by lespenel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,6 @@ static int	start_philos(t_master *datas)
 				(void *)philo_routine, &datas->philos[i]) == -1)
 		{
 			error_join_loop(i + 1, datas);
-			free_datas(datas);
 			return (print_error("pthread_create failure\n"));
 		}
 		i++;

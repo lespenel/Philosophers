@@ -6,7 +6,7 @@
 /*   By: lespenel <lespenel@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 05:33:57 by lespenel          #+#    #+#             */
-/*   Updated: 2024/02/09 05:33:59 by lespenel         ###   ########.fr       */
+/*   Updated: 2024/02/13 17:24:43 by lespenel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ static int	is_philo_dead(t_philo *philo)
 		pthread_mutex_unlock(philo->mutex_philo);
 		return (0);
 	}
-	if (time_since_last_meal > (size_t)philo->master->params.time_to_die)
+	if (time_since_last_meal >= (size_t)philo->master->params.time_to_die)
 	{
 		pthread_mutex_unlock(philo->mutex_philo);
 		return (1);

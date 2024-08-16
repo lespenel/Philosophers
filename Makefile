@@ -1,6 +1,6 @@
 NAME = 	philo
 
-CFLAGS = -Wall -Wextra -Werror -g3 -O3 -I$(INCLUDES)
+CFLAGS = -Wall -Wextra -Werror -O3 -I$(INCLUDES)
 
 DFLAGS = -MMD -MP
 
